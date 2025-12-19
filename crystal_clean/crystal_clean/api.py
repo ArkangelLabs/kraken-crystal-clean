@@ -30,7 +30,7 @@ def create_issue_from_contract(contract_name):
 
 	# Create Issue Process
 	issue = frappe.new_doc("Issue Process")
-	issue.subject = f"Contract Renewal: {contract.company}"
+	issue.subject = "contract ending"
 	issue.status = "Open"
 	issue.priority = "High" if days_until and days_until <= 30 else "Medium"
 	issue.due_date = contract.renewal_date
