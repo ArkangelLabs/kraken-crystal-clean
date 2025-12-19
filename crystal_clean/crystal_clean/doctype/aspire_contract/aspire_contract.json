@@ -1,0 +1,174 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2025-12-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "company",
+  "property",
+  "contract_status",
+  "column_break_1",
+  "renewal_date",
+  "sales_rep",
+  "section_break_financials",
+  "estimated_value",
+  "gross_margin",
+  "column_break_2",
+  "branch",
+  "division",
+  "section_break_dates",
+  "won_date",
+  "aspire_modified_date",
+  "column_break_3",
+  "aspire_opportunity_id",
+  "last_aspire_sync"
+ ],
+ "fields": [
+  {
+   "default": "CONT-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "CONT-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Aspire Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Property",
+   "options": "Service Property"
+  },
+  {
+   "fieldname": "contract_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Contract Status",
+   "options": "Open\nWon\nLost"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "renewal_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Renewal Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sales_rep",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Sales Rep"
+  },
+  {
+   "fieldname": "section_break_financials",
+   "fieldtype": "Section Break",
+   "label": "Financials"
+  },
+  {
+   "fieldname": "estimated_value",
+   "fieldtype": "Currency",
+   "label": "Estimated Value"
+  },
+  {
+   "fieldname": "gross_margin",
+   "fieldtype": "Currency",
+   "label": "Gross Margin"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Branch"
+  },
+  {
+   "fieldname": "division",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Division"
+  },
+  {
+   "fieldname": "section_break_dates",
+   "fieldtype": "Section Break",
+   "label": "Dates & Sync"
+  },
+  {
+   "fieldname": "won_date",
+   "fieldtype": "Date",
+   "label": "Won Date"
+  },
+  {
+   "fieldname": "aspire_modified_date",
+   "fieldtype": "Datetime",
+   "label": "Aspire Modified Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "aspire_opportunity_id",
+   "fieldtype": "Int",
+   "label": "Aspire Opportunity ID",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "last_aspire_sync",
+   "fieldtype": "Datetime",
+   "label": "Last Aspire Sync",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2025-12-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Crystal Clean",
+ "name": "Aspire Contract",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "company,property,sales_rep,renewal_date",
+ "sort_field": "aspire_modified_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

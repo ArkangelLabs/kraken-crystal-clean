@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2024-12-10 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "sync_type",
+  "entity_type",
+  "status",
+  "column_break_basic",
+  "started_at",
+  "completed_at",
+  "sync_duration_seconds",
+  "records_section",
+  "records_pulled",
+  "records_created",
+  "records_updated",
+  "column_break_records",
+  "errors",
+  "error_section",
+  "error_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "SYNC-.YYYY.-.#####",
+   "default": "SYNC-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "sync_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Sync Type",
+   "options": "Full\nIncremental\nManual",
+   "reqd": 1
+  },
+  {
+   "fieldname": "entity_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Entity Type",
+   "options": "All\nCompanies\nContacts\nProperties\nOpportunities\nOpportunity Services\nWork Tickets",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Running\nSuccess\nPartial\nFailed",
+   "default": "Running"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "started_at",
+   "fieldtype": "Datetime",
+   "label": "Started At",
+   "default": "Now"
+  },
+  {
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At"
+  },
+  {
+   "fieldname": "sync_duration_seconds",
+   "fieldtype": "Float",
+   "label": "Duration (seconds)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "records_section",
+   "fieldtype": "Section Break",
+   "label": "Records"
+  },
+  {
+   "fieldname": "records_pulled",
+   "fieldtype": "Int",
+   "label": "Records Pulled",
+   "default": "0"
+  },
+  {
+   "fieldname": "records_created",
+   "fieldtype": "Int",
+   "label": "Records Created",
+   "default": "0"
+  },
+  {
+   "fieldname": "records_updated",
+   "fieldtype": "Int",
+   "label": "Records Updated",
+   "default": "0"
+  },
+  {
+   "fieldname": "column_break_records",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "errors",
+   "fieldtype": "Int",
+   "label": "Errors",
+   "default": "0"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "error_section",
+   "fieldtype": "Section Break",
+   "label": "Error Details"
+  },
+  {
+   "fieldname": "error_details",
+   "fieldtype": "Code",
+   "label": "Error Details",
+   "options": "JSON"
+  }
+ ],
+ "links": [],
+ "modified": "2024-12-10 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Crystal Clean",
+ "name": "Aspire Sync Log",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

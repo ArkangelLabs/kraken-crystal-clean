@@ -1,0 +1,166 @@
+{
+ "actions": [],
+ "autoname": "field:property_name",
+ "creation": "2024-12-10 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "property_name",
+  "customer",
+  "property_status_name",
+  "column_break_basic",
+  "industry_name",
+  "budget",
+  "address_section",
+  "property_address_line1",
+  "property_address_city",
+  "property_address_state_province_code",
+  "property_address_zip_code",
+  "column_break_address",
+  "geo_location_latitude",
+  "geo_location_longitude",
+  "management_section",
+  "account_owner_contact_name",
+  "aspire_section",
+  "aspire_property_id",
+  "last_aspire_sync"
+ ],
+ "fields": [
+  {
+   "fieldname": "property_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Property Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "property_status_name",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Customer\nProspect\nInactive"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "industry_name",
+   "fieldtype": "Data",
+   "label": "Industry"
+  },
+  {
+   "fieldname": "budget",
+   "fieldtype": "Currency",
+   "label": "Budget"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "property_address_line1",
+   "fieldtype": "Data",
+   "label": "Address Line 1"
+  },
+  {
+   "fieldname": "property_address_city",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "City"
+  },
+  {
+   "fieldname": "property_address_state_province_code",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "property_address_zip_code",
+   "fieldtype": "Data",
+   "label": "Zip Code"
+  },
+  {
+   "fieldname": "column_break_address",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "geo_location_latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "precision": "6"
+  },
+  {
+   "fieldname": "geo_location_longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "precision": "6"
+  },
+  {
+   "fieldname": "management_section",
+   "fieldtype": "Section Break",
+   "label": "Management"
+  },
+  {
+   "fieldname": "account_owner_contact_name",
+   "fieldtype": "Data",
+   "label": "Account Owner"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "aspire_section",
+   "fieldtype": "Section Break",
+   "label": "Aspire Integration"
+  },
+  {
+   "fieldname": "aspire_property_id",
+   "fieldtype": "Int",
+   "label": "Aspire Property ID",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "last_aspire_sync",
+   "fieldtype": "Datetime",
+   "label": "Last Aspire Sync",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2024-12-10 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Crystal Clean",
+ "name": "Service Property",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "property_name",
+ "track_changes": 1
+}

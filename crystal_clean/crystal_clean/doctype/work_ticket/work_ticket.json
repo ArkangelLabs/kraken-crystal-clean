@@ -1,0 +1,193 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2024-12-10 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "work_ticket_number",
+  "work_ticket_status_name",
+  "column_break_basic",
+  "service_property",
+  "opportunity",
+  "dates_section",
+  "scheduled_start_date",
+  "complete_date",
+  "hours_section",
+  "hours_est",
+  "hours_act",
+  "column_break_hours",
+  "crew_leader_name",
+  "costs_section",
+  "labor_cost_act",
+  "material_cost_act",
+  "equipment_cost_act",
+  "column_break_costs",
+  "earned_revenue",
+  "aspire_section",
+  "aspire_work_ticket_id",
+  "aspire_opportunity_service_id",
+  "last_aspire_sync"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "WT-.YYYY.-.#####",
+   "default": "WT-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "work_ticket_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Work Ticket Number"
+  },
+  {
+   "fieldname": "work_ticket_status_name",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Scheduled\nIn Progress\nComplete\nCancelled"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Service Property",
+   "options": "Service Property"
+  },
+  {
+   "fieldname": "opportunity",
+   "fieldtype": "Link",
+   "label": "Opportunity",
+   "options": "Opportunity"
+  },
+  {
+   "fieldname": "dates_section",
+   "fieldtype": "Section Break",
+   "label": "Dates"
+  },
+  {
+   "fieldname": "scheduled_start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Scheduled Start Date"
+  },
+  {
+   "fieldname": "complete_date",
+   "fieldtype": "Date",
+   "label": "Complete Date"
+  },
+  {
+   "fieldname": "hours_section",
+   "fieldtype": "Section Break",
+   "label": "Hours"
+  },
+  {
+   "fieldname": "hours_est",
+   "fieldtype": "Float",
+   "label": "Estimated Hours"
+  },
+  {
+   "fieldname": "hours_act",
+   "fieldtype": "Float",
+   "label": "Actual Hours"
+  },
+  {
+   "fieldname": "column_break_hours",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "crew_leader_name",
+   "fieldtype": "Data",
+   "label": "Crew Leader"
+  },
+  {
+   "fieldname": "costs_section",
+   "fieldtype": "Section Break",
+   "label": "Costs & Revenue"
+  },
+  {
+   "fieldname": "labor_cost_act",
+   "fieldtype": "Currency",
+   "label": "Labor Cost"
+  },
+  {
+   "fieldname": "material_cost_act",
+   "fieldtype": "Currency",
+   "label": "Material Cost"
+  },
+  {
+   "fieldname": "equipment_cost_act",
+   "fieldtype": "Currency",
+   "label": "Equipment Cost"
+  },
+  {
+   "fieldname": "column_break_costs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "earned_revenue",
+   "fieldtype": "Currency",
+   "label": "Earned Revenue"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "aspire_section",
+   "fieldtype": "Section Break",
+   "label": "Aspire Integration"
+  },
+  {
+   "fieldname": "aspire_work_ticket_id",
+   "fieldtype": "Int",
+   "label": "Aspire Work Ticket ID",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "aspire_opportunity_service_id",
+   "fieldtype": "Int",
+   "label": "Aspire Opportunity Service ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_aspire_sync",
+   "fieldtype": "Datetime",
+   "label": "Last Aspire Sync",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2024-12-10 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Crystal Clean",
+ "name": "Work Ticket",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

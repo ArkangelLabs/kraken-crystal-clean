@@ -1,0 +1,140 @@
+[
+ {
+  "name": "Customer-aspire_section",
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "aspire_section",
+  "fieldtype": "Section Break",
+  "label": "Aspire Integration",
+  "collapsible": 1,
+  "insert_after": "disabled"
+ },
+ {
+  "name": "Customer-custom_aspire_company_id",
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "custom_aspire_company_id",
+  "fieldtype": "Int",
+  "label": "Aspire Company ID",
+  "read_only": 1,
+  "insert_after": "aspire_section"
+ },
+ {
+  "name": "Customer-custom_last_aspire_sync",
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "custom_last_aspire_sync",
+  "fieldtype": "Datetime",
+  "label": "Last Aspire Sync",
+  "read_only": 1,
+  "insert_after": "custom_aspire_company_id"
+ },
+ {
+  "name": "Contact-aspire_section",
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "aspire_section",
+  "fieldtype": "Section Break",
+  "label": "Aspire Integration",
+  "collapsible": 1,
+  "insert_after": "unsubscribed"
+ },
+ {
+  "name": "Contact-custom_aspire_contact_id",
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "custom_aspire_contact_id",
+  "fieldtype": "Int",
+  "label": "Aspire Contact ID",
+  "read_only": 1,
+  "insert_after": "aspire_section"
+ },
+ {
+  "name": "Contact-custom_last_aspire_sync",
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "custom_last_aspire_sync",
+  "fieldtype": "Datetime",
+  "label": "Last Aspire Sync",
+  "read_only": 1,
+  "insert_after": "custom_aspire_contact_id"
+ },
+ {
+  "name": "Opportunity-aspire_section",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "aspire_section",
+  "fieldtype": "Section Break",
+  "label": "Aspire Integration",
+  "collapsible": 1,
+  "insert_after": "contact_email"
+ },
+ {
+  "name": "Opportunity-custom_aspire_opportunity_id",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_aspire_opportunity_id",
+  "fieldtype": "Int",
+  "label": "Aspire Opportunity ID",
+  "read_only": 1,
+  "insert_after": "aspire_section"
+ },
+ {
+  "name": "Opportunity-custom_service_property",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_service_property",
+  "fieldtype": "Link",
+  "label": "Service Property",
+  "options": "Service Property",
+  "insert_after": "custom_aspire_opportunity_id"
+ },
+ {
+  "name": "Opportunity-custom_renewal_date",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_renewal_date",
+  "fieldtype": "Date",
+  "label": "Renewal Date",
+  "insert_after": "custom_service_property"
+ },
+ {
+  "name": "Opportunity-custom_estimated_dollars",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_estimated_dollars",
+  "fieldtype": "Currency",
+  "label": "Estimated Dollars",
+  "insert_after": "custom_renewal_date"
+ },
+ {
+  "name": "Opportunity-custom_estimated_gross_margin",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_estimated_gross_margin",
+  "fieldtype": "Currency",
+  "label": "Estimated Gross Margin",
+  "insert_after": "custom_estimated_dollars"
+ },
+ {
+  "name": "Opportunity-custom_last_aspire_sync",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_last_aspire_sync",
+  "fieldtype": "Datetime",
+  "label": "Last Aspire Sync",
+  "read_only": 1,
+  "insert_after": "custom_estimated_gross_margin"
+ },
+ {
+  "name": "Opportunity-custom_aspire_modified_date",
+  "doctype": "Custom Field",
+  "dt": "Opportunity",
+  "fieldname": "custom_aspire_modified_date",
+  "fieldtype": "Datetime",
+  "label": "Aspire Modified Date",
+  "read_only": 1,
+  "description": "When this record was last modified in Aspire",
+  "insert_after": "custom_last_aspire_sync"
+ }
+]
