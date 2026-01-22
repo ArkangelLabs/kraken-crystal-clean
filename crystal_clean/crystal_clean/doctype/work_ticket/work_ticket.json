@@ -10,7 +10,7 @@
   "work_ticket_status_name",
   "column_break_basic",
   "service_property",
-  "opportunity",
+  "contract",
   "dates_section",
   "scheduled_start_date",
   "complete_date",
@@ -65,10 +65,10 @@
    "options": "Service Property"
   },
   {
-   "fieldname": "opportunity",
+   "fieldname": "contract",
    "fieldtype": "Link",
-   "label": "Opportunity",
-   "options": "Opportunity"
+   "label": "Contract",
+   "options": "Aspire Contract"
   },
   {
    "fieldname": "dates_section",

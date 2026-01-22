@@ -41,18 +41,6 @@ def parse_datetime(dt_str):
 		return None
 
 
-def transform_company_to_customer(aspire_company):
-	"""Transform Aspire Company to Frappe Customer."""
-	return {
-		"doctype": "Customer",
-		"customer_name": aspire_company.get("CompanyName"),
-		"customer_type": "Company",
-		"disabled": not aspire_company.get("Active", True),
-		"custom_aspire_company_id": aspire_company.get("CompanyID"),
-		"custom_last_aspire_sync": datetime.now(),
-	}
-
-
 def clean_phone(phone_str):
 	"""Clean phone number - remove extensions, trailing text, and invalid characters.
 
@@ -79,44 +67,7 @@ def clean_phone(phone_str):
 	return None
 
 
-def transform_contact(aspire_contact, customer_name=None):
-	"""Transform Aspire Contact to Frappe Contact."""
-	first_name = aspire_contact.get("FirstName", "")
-	last_name = aspire_contact.get("LastName", "")
-
-	contact = {
-		"doctype": "Contact",
-		"first_name": first_name,
-		"last_name": last_name,
-		"status": "Open" if aspire_contact.get("Active", True) else "Passive",
-		"custom_aspire_contact_id": aspire_contact.get("ContactID"),
-		"custom_last_aspire_sync": datetime.now(),
-	}
-
-	# Email
-	email = aspire_contact.get("Email")
-	if email:
-		contact["email_ids"] = [{"email_id": email, "is_primary": 1}]
-
-	# Phone numbers (cleaned of extensions)
-	phone_nos = []
-	mobile = clean_phone(aspire_contact.get("MobilePhone"))
-	office = clean_phone(aspire_contact.get("OfficePhone"))
-	if mobile:
-		phone_nos.append({"phone": mobile, "is_primary_mobile_no": 1})
-	if office:
-		phone_nos.append({"phone": office, "is_primary_phone": 1})
-	if phone_nos:
-		contact["phone_nos"] = phone_nos
-
-	# Link to customer
-	if customer_name:
-		contact["links"] = [{"link_doctype": "Customer", "link_name": customer_name}]
-
-	return contact
-
-
-def transform_property_to_service_property(aspire_property, customer_name=None):
+def transform_property_to_service_property(aspire_property, company_name=None):
 	"""Transform Aspire Property to Service Property DocType."""
 	# Map PropertyStatusName to status
 	status_map = {"Customer": "Customer", "Prospect": "Prospect"}
@@ -137,7 +88,7 @@ def transform_property_to_service_property(aspire_property, customer_name=None):
 	return {
 		"doctype": "Service Property",
 		"property_name": property_name,
-		"customer": customer_name,
+		"company": company_name,
 		"property_status_name": status,
 		"industry_name": aspire_property.get("IndustryName"),
 		"budget": aspire_property.get("Budget"),
@@ -153,38 +104,7 @@ def transform_property_to_service_property(aspire_property, customer_name=None):
 	}
 
 
-def transform_opportunity(aspire_opportunity, customer_name=None, service_property_name=None):
-	"""Transform Aspire Opportunity to Frappe Opportunity with custom fields."""
-	# Map status
-	status_name = aspire_opportunity.get("OpportunityStatusName", "")
-	if "Won" in status_name:
-		status = "Converted"
-	elif "Lost" in status_name:
-		status = "Lost"
-	else:
-		status = "Open"
-
-	return {
-		"doctype": "Opportunity",
-		"opportunity_from": "Customer" if customer_name else "Lead",
-		"party_name": customer_name,
-		"status": status,
-		"custom_aspire_opportunity_id": aspire_opportunity.get("OpportunityID"),
-		"custom_service_property": service_property_name,
-		"custom_renewal_date": parse_date(aspire_opportunity.get("RenewalDate")),
-		"custom_estimated_dollars": aspire_opportunity.get("EstimatedDollars"),
-		"custom_estimated_gross_margin": aspire_opportunity.get("EstimatedGrossMarginDollars"),
-		"custom_sales_rep": aspire_opportunity.get("SalesRepContactName"),
-		"custom_branch": aspire_opportunity.get("BranchName"),
-		"custom_division": aspire_opportunity.get("DivisionName"),
-		"custom_opportunity_type": aspire_opportunity.get("OpportunityType"),
-		"custom_won_date": parse_date(aspire_opportunity.get("WonDate")),
-		"custom_last_aspire_sync": datetime.now(),
-		"custom_aspire_modified_date": parse_datetime(aspire_opportunity.get("ModifiedDate")),
-	}
-
-
-def transform_work_ticket(aspire_ticket, service_property_name=None, opportunity_name=None):
+def transform_work_ticket(aspire_ticket, service_property_name=None, contract_name=None):
 	"""Transform Aspire Work Ticket to Work Ticket DocType."""
 	# Map WorkTicketStatusName to status
 	status_map = {

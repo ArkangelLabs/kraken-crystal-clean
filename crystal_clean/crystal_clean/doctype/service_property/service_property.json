@@ -6,7 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "property_name",
-  "customer",
+  "company",
   "property_status_name",
   "column_break_basic",
   "industry_name",
@@ -36,12 +36,12 @@
    "unique": 1
   },
   {
-   "fieldname": "customer",
+   "fieldname": "company",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Customer",
-   "options": "Customer"
+   "label": "Company",
+   "options": "Aspire Company"
   },
   {
    "fieldname": "property_status_name",

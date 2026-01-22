@@ -8,11 +8,11 @@ app_license = "mit"
 # Apps
 # ------------------
 
-required_apps = ["erpnext"]
+# No required apps - this is a standalone Frappe app
 
 # Fixtures
+# Note: Custom Field removed - all fields are now native to Aspire DocTypes
 fixtures = [
-	{"dt": "Custom Field", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Workspace Sidebar", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Number Card", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Dashboard Chart", "filters": [["module", "=", "Crystal Clean"]]},

@@ -5,10 +5,10 @@
 Sync orchestration for Aspire API integration.
 
 Sync order (respects foreign keys):
-1. Companies → Customer
+1. Companies → Aspire Company
 2. Properties → Service Property
-3. Contacts → Contact
-4. Opportunities → Opportunity
+3. Contacts → Aspire Contact
+4. Contracts → Aspire Contract
 5. Work Tickets → Work Ticket
 """
 
@@ -24,12 +24,8 @@ BATCH_DELAY = 0.5  # Seconds between batches
 
 from .client import AspireClient, AspireAPIError
 from .transform import (
-	transform_company_to_customer,
-	transform_contact,
-	transform_opportunity,
 	transform_property_to_service_property,
 	transform_work_ticket,
-	# New clean slate transforms
 	transform_to_aspire_company,
 	transform_to_aspire_contact,
 	transform_to_aspire_contract,
@@ -96,63 +92,26 @@ def get_last_sync_date(entity_type="All"):
 	return None
 
 
-def sync_companies(client, stats, modified_since=None, cutoff_date=None):
-	"""Sync companies from Aspire to Customer DocType."""
-	errors = []
-	companies = client.fetch_companies(modified_since, cutoff_date)
-	stats.pulled += len(companies)
-
-	for i, company in enumerate(companies):
-		try:
-			aspire_id = company.get("CompanyID")
-			customer_data = transform_company_to_customer(company)
-
-			# Check if customer exists by aspire_company_id
-			existing = frappe.db.get_value("Customer", {"custom_aspire_company_id": aspire_id}, "name")
-
-			if existing:
-				doc = frappe.get_doc("Customer", existing)
-				doc.update(customer_data)
-				doc.save(ignore_permissions=True)
-				stats.updated += 1
-			else:
-				doc = frappe.get_doc(customer_data)
-				doc.insert(ignore_permissions=True)
-				stats.created += 1
-
-		except Exception as e:
-			stats.errors += 1
-			errors.append({"entity": "Company", "id": company.get("CompanyID"), "error": str(e)})
-
-		# Batch commit and delay
-		if (i + 1) % BATCH_SIZE == 0:
-			frappe.db.commit()
-			time.sleep(BATCH_DELAY)
-
-	frappe.db.commit()
-	return errors
-
-
 def sync_properties(client, stats, modified_since=None, cutoff_date=None):
 	"""Sync properties from Aspire to Service Property DocType."""
 	errors = []
 	properties = client.fetch_properties(modified_since, cutoff_date)
 	stats.pulled += len(properties)
 
-	# Build company ID to customer name mapping
+	# Build company ID to Aspire Company name mapping
 	company_map = {}
-	customers = frappe.get_all("Customer", fields=["name", "custom_aspire_company_id"])
-	for c in customers:
-		if c.custom_aspire_company_id:
-			company_map[c.custom_aspire_company_id] = c.name
+	aspire_companies = frappe.get_all("Aspire Company", fields=["name", "aspire_company_id"])
+	for c in aspire_companies:
+		if c.aspire_company_id:
+			company_map[c.aspire_company_id] = c.name
 
 	for i, prop in enumerate(properties):
 		try:
 			aspire_id = prop.get("PropertyID")
 			company_id = prop.get("CompanyID")
-			customer_name = company_map.get(company_id)
+			company_name = company_map.get(company_id)
 
-			property_data = transform_property_to_service_property(prop, customer_name)
+			property_data = transform_property_to_service_property(prop, company_name)
 
 			# Check if property exists
 			existing = frappe.db.get_value("Service Property", {"aspire_property_id": aspire_id}, "name")
@@ -170,118 +129,6 @@ def sync_properties(client, stats, modified_since=None, cutoff_date=None):
 		except Exception as e:
 			stats.errors += 1
 			errors.append({"entity": "Property", "id": prop.get("PropertyID"), "error": str(e)})
-
-		# Batch commit and delay
-		if (i + 1) % BATCH_SIZE == 0:
-			frappe.db.commit()
-			time.sleep(BATCH_DELAY)
-
-	frappe.db.commit()
-	return errors
-
-
-def sync_contacts(client, stats, modified_since=None, cutoff_date=None):
-	"""Sync contacts from Aspire to Contact DocType."""
-	errors = []
-	contacts = client.fetch_contacts(modified_since, cutoff_date)
-	stats.pulled += len(contacts)
-
-	# Build company ID to customer name mapping
-	company_map = {}
-	customers = frappe.get_all("Customer", fields=["name", "custom_aspire_company_id"])
-	for c in customers:
-		if c.custom_aspire_company_id:
-			company_map[c.custom_aspire_company_id] = c.name
-
-	for i, contact in enumerate(contacts):
-		try:
-			aspire_id = contact.get("ContactID")
-			company_id = contact.get("CompanyID")
-			customer_name = company_map.get(company_id)
-
-			contact_data = transform_contact(contact, customer_name)
-
-			# Check if contact exists
-			existing = frappe.db.get_value("Contact", {"custom_aspire_contact_id": aspire_id}, "name")
-
-			if existing:
-				doc = frappe.get_doc("Contact", existing)
-				# Update basic fields, not child tables
-				for key in ["first_name", "last_name", "status", "custom_last_aspire_sync"]:
-					if key in contact_data:
-						setattr(doc, key, contact_data[key])
-				doc.save(ignore_permissions=True)
-				stats.updated += 1
-			else:
-				doc = frappe.get_doc(contact_data)
-				doc.insert(ignore_permissions=True)
-				stats.created += 1
-
-		except Exception as e:
-			stats.errors += 1
-			errors.append({"entity": "Contact", "id": contact.get("ContactID"), "error": str(e)})
-
-		# Batch commit and delay
-		if (i + 1) % BATCH_SIZE == 0:
-			frappe.db.commit()
-			time.sleep(BATCH_DELAY)
-
-	frappe.db.commit()
-	return errors
-
-
-def sync_opportunities(client, stats, modified_since=None, cutoff_date=None):
-	"""Sync opportunities from Aspire to Opportunity DocType."""
-	errors = []
-	opportunities = client.fetch_opportunities(modified_since, cutoff_date)
-	stats.pulled += len(opportunities)
-
-	# Build mappings
-	company_map = {}
-	customers = frappe.get_all("Customer", fields=["name", "custom_aspire_company_id"])
-	for c in customers:
-		if c.custom_aspire_company_id:
-			company_map[c.custom_aspire_company_id] = c.name
-
-	property_map = {}
-	properties = frappe.get_all("Service Property", fields=["name", "aspire_property_id"])
-	for p in properties:
-		if p.aspire_property_id:
-			property_map[p.aspire_property_id] = p.name
-
-	for i, opp in enumerate(opportunities):
-		try:
-			aspire_id = opp.get("OpportunityID")
-			company_id = opp.get("BillingCompanyID") or opp.get("CompanyID")
-			property_id = opp.get("PropertyID")
-
-			customer_name = company_map.get(company_id)
-			property_name = property_map.get(property_id)
-
-			# Skip if no customer - Frappe Opportunity requires party_name
-			if not customer_name:
-				continue
-
-			opp_data = transform_opportunity(opp, customer_name, property_name)
-
-			# Check if opportunity exists
-			existing = frappe.db.get_value("Opportunity", {"custom_aspire_opportunity_id": aspire_id}, "name")
-
-			if existing:
-				doc = frappe.get_doc("Opportunity", existing)
-				for key, value in opp_data.items():
-					if key != "doctype":
-						setattr(doc, key, value)
-				doc.save(ignore_permissions=True)
-				stats.updated += 1
-			else:
-				doc = frappe.get_doc(opp_data)
-				doc.insert(ignore_permissions=True)
-				stats.created += 1
-
-		except Exception as e:
-			stats.errors += 1
-			errors.append({"entity": "Opportunity", "id": opp.get("OpportunityID"), "error": str(e)})
 
 		# Batch commit and delay
 		if (i + 1) % BATCH_SIZE == 0:
@@ -510,16 +357,16 @@ def full_sync():
 
 		# Sync in order of dependencies
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Companies", "status": "syncing"})
-		all_errors.extend(sync_companies(client, stats))
+		all_errors.extend(sync_aspire_companies(client, stats))
 
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Properties", "status": "syncing"})
 		all_errors.extend(sync_properties(client, stats))
 
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Contacts", "status": "syncing"})
-		all_errors.extend(sync_contacts(client, stats))
+		all_errors.extend(sync_aspire_contacts(client, stats))
 
-		frappe.publish_realtime("aspire_sync_progress", {"entity": "Opportunities", "status": "syncing"})
-		all_errors.extend(sync_opportunities(client, stats))
+		frappe.publish_realtime("aspire_sync_progress", {"entity": "Contracts", "status": "syncing"})
+		all_errors.extend(sync_aspire_contracts(client, stats))
 
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Work Tickets", "status": "syncing"})
 		all_errors.extend(sync_work_tickets(client, stats))
@@ -551,10 +398,10 @@ def incremental_sync():
 	try:
 		client = AspireClient()
 
-		all_errors.extend(sync_companies(client, stats, modified_since))
+		all_errors.extend(sync_aspire_companies(client, stats, modified_since))
 		all_errors.extend(sync_properties(client, stats, modified_since))
-		all_errors.extend(sync_contacts(client, stats, modified_since))
-		all_errors.extend(sync_opportunities(client, stats, modified_since))
+		all_errors.extend(sync_aspire_contacts(client, stats, modified_since))
+		all_errors.extend(sync_aspire_contracts(client, stats, modified_since))
 		all_errors.extend(sync_work_tickets(client, stats, modified_since))
 
 		duration = (datetime.now() - start_time).total_seconds()
@@ -676,7 +523,7 @@ def resync_since(cutoff_date_str="2025-10-01"):
 		# Sync in order of dependencies with cutoff date
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Companies", "status": "syncing"})
 		print(f"Syncing Companies modified since {cutoff_date_str}...")
-		all_errors.extend(sync_companies(client, stats, cutoff_date=cutoff))
+		all_errors.extend(sync_aspire_companies(client, stats, cutoff_date=cutoff))
 		print(f"  Companies: {stats.created} created, {stats.updated} updated, {stats.errors} errors")
 
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Properties", "status": "syncing"})
@@ -686,12 +533,12 @@ def resync_since(cutoff_date_str="2025-10-01"):
 
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Contacts", "status": "syncing"})
 		print(f"Syncing Contacts modified since {cutoff_date_str}...")
-		all_errors.extend(sync_contacts(client, stats, cutoff_date=cutoff))
+		all_errors.extend(sync_aspire_contacts(client, stats, cutoff_date=cutoff))
 		print(f"  Running totals: {stats.created} created, {stats.updated} updated, {stats.errors} errors")
 
-		frappe.publish_realtime("aspire_sync_progress", {"entity": "Opportunities", "status": "syncing"})
-		print(f"Syncing Opportunities modified since {cutoff_date_str}...")
-		all_errors.extend(sync_opportunities(client, stats, cutoff_date=cutoff))
+		frappe.publish_realtime("aspire_sync_progress", {"entity": "Contracts", "status": "syncing"})
+		print(f"Syncing Contracts modified since {cutoff_date_str}...")
+		all_errors.extend(sync_aspire_contracts(client, stats, cutoff_date=cutoff))
 		print(f"  Running totals: {stats.created} created, {stats.updated} updated, {stats.errors} errors")
 
 		frappe.publish_realtime("aspire_sync_progress", {"entity": "Work Tickets", "status": "syncing"})
@@ -727,7 +574,7 @@ def link_work_tickets_to_properties():
 	Link Work Tickets to Service Properties via OpportunityServices.
 
 	Chain: WorkTicket.aspire_opportunity_service_id → OpportunityService.OpportunityID
-	       → Opportunity.custom_aspire_opportunity_id → Opportunity.custom_service_property
+	       → Aspire Contract.aspire_opportunity_id → Aspire Contract.property
 
 	Example: bench execute crystal_clean.integrations.aspire.sync.link_work_tickets_to_properties
 	"""
@@ -748,18 +595,18 @@ def link_work_tickets_to_properties():
 
 	print(f"  Built mapping for {len(service_to_opp)} services")
 
-	# Step 3: Build OpportunityID → Service Property map from ERPNext
-	opp_to_property = {}
-	opportunities = frappe.get_all(
-		"Opportunity",
-		fields=["custom_aspire_opportunity_id", "custom_service_property"],
-		filters={"custom_service_property": ["is", "set"]},
+	# Step 3: Build OpportunityID → Service Property map from Aspire Contract
+	contract_to_property = {}
+	contracts = frappe.get_all(
+		"Aspire Contract",
+		fields=["aspire_opportunity_id", "property"],
+		filters={"property": ["is", "set"]},
 	)
-	for opp in opportunities:
-		if opp.custom_aspire_opportunity_id:
-			opp_to_property[opp.custom_aspire_opportunity_id] = opp.custom_service_property
+	for contract in contracts:
+		if contract.aspire_opportunity_id:
+			contract_to_property[contract.aspire_opportunity_id] = contract.property
 
-	print(f"  Found {len(opp_to_property)} Opportunities with Service Properties")
+	print(f"  Found {len(contract_to_property)} Aspire Contracts with Service Properties")
 
 	# Step 4: Update Work Tickets
 	work_tickets = frappe.get_all(
@@ -780,7 +627,7 @@ def link_work_tickets_to_properties():
 		opp_id = service_to_opp.get(svc_id)
 
 		if opp_id:
-			property_name = opp_to_property.get(opp_id)
+			property_name = contract_to_property.get(opp_id)
 			if property_name:
 				frappe.db.set_value("Work Ticket", wt.name, "service_property", property_name, update_modified=False)
 				updated += 1
@@ -802,14 +649,14 @@ def link_work_tickets_to_properties():
 	return {"updated": updated, "not_found": not_found}
 
 
-def link_properties_to_customers():
+def link_properties_to_companies():
 	"""
-	Link Service Properties to Customers via Aspire CompanyID.
+	Link Service Properties to Aspire Companies via Aspire CompanyID.
 
 	Chain: ServiceProperty.aspire_property_id → Property.CompanyID
-	       → Customer.custom_aspire_company_id
+	       → Aspire Company.aspire_company_id
 
-	Example: bench execute crystal_clean.integrations.aspire.sync.link_properties_to_customers
+	Example: bench execute crystal_clean.integrations.aspire.sync.link_properties_to_companies
 	"""
 	print("Fetching Properties from Aspire API...")
 
@@ -819,7 +666,7 @@ def link_properties_to_customers():
 	print(f"  Fetched {len(properties)} Properties from API")
 
 	# Step 2: Build PropertyID → CompanyID map (CompanyID is in PropertyContacts array)
-	property_to_company = {}
+	property_to_company_id = {}
 	for prop in properties:
 		prop_id = prop.get("PropertyID")
 		contacts = prop.get("PropertyContacts", [])
@@ -830,21 +677,21 @@ def link_properties_to_customers():
 				company_id = contact.get("CompanyID")
 				break
 		if prop_id and company_id:
-			property_to_company[prop_id] = company_id
+			property_to_company_id[prop_id] = company_id
 
-	print(f"  Built mapping for {len(property_to_company)} properties")
+	print(f"  Built mapping for {len(property_to_company_id)} properties")
 
-	# Step 3: Build CompanyID → Customer name map from ERPNext
-	company_to_customer = {}
-	customers = frappe.get_all(
-		"Customer",
-		fields=["name", "custom_aspire_company_id"],
-		filters={"custom_aspire_company_id": [">", 0]},
+	# Step 3: Build CompanyID → Aspire Company name map
+	aspire_company_map = {}
+	aspire_companies = frappe.get_all(
+		"Aspire Company",
+		fields=["name", "aspire_company_id"],
+		filters={"aspire_company_id": [">", 0]},
 	)
-	for cust in customers:
-		company_to_customer[cust.custom_aspire_company_id] = cust.name
+	for company in aspire_companies:
+		aspire_company_map[company.aspire_company_id] = company.name
 
-	print(f"  Found {len(company_to_customer)} Customers with Aspire IDs")
+	print(f"  Found {len(aspire_company_map)} Aspire Companies")
 
 	# Step 4: Update Service Properties
 	service_properties = frappe.get_all(
@@ -852,22 +699,22 @@ def link_properties_to_customers():
 		fields=["name", "aspire_property_id"],
 		filters={
 			"aspire_property_id": [">", 0],
-			"customer": ["is", "not set"],
+			"company": ["is", "not set"],
 		},
 	)
 
-	print(f"  Found {len(service_properties)} Service Properties needing customer link")
+	print(f"  Found {len(service_properties)} Service Properties needing company link")
 
 	updated = 0
 	not_found = 0
 	for i, sp in enumerate(service_properties):
 		prop_id = sp.aspire_property_id
-		company_id = property_to_company.get(prop_id)
+		company_id = property_to_company_id.get(prop_id)
 
 		if company_id:
-			customer_name = company_to_customer.get(company_id)
-			if customer_name:
-				frappe.db.set_value("Service Property", sp.name, "customer", customer_name, update_modified=False)
+			company_name = aspire_company_map.get(company_id)
+			if company_name:
+				frappe.db.set_value("Service Property", sp.name, "company", company_name, update_modified=False)
 				updated += 1
 			else:
 				not_found += 1
