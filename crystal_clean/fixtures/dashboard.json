@@ -1,0 +1,110 @@
+[
+ {
+  "cards": [],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Contract Expiration by Sales Rep",
+    "width": "Full"
+   },
+   {
+    "chart": "Sales Rep Activity Overview",
+    "width": "Full"
+   },
+   {
+    "chart": "Contract Status Distribution",
+    "width": "Half"
+   },
+   {
+    "chart": "Work Tickets Trend",
+    "width": "Half"
+   }
+  ],
+  "dashboard_name": "Crystal Clean Overview",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 0,
+  "is_standard": 1,
+  "modified": "2025-12-17 23:53:09",
+  "module": "Crystal Clean",
+  "name": "Crystal Clean Overview"
+ },
+ {
+  "cards": [
+   {
+    "card": "Contracts Expiring 30 Days"
+   },
+   {
+    "card": "Contracts Expiring 60 Days"
+   },
+   {
+    "card": "Contracts Expiring 90 Days"
+   }
+  ],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Contract Expiration by Sales Rep",
+    "width": "Full"
+   }
+  ],
+  "dashboard_name": "Crystal Clean",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 1,
+  "is_standard": 1,
+  "modified": "2025-12-18 00:00:00",
+  "module": "Crystal Clean",
+  "name": "Crystal Clean"
+ },
+ {
+  "cards": [
+   {
+    "card": "Total Contracts"
+   }
+  ],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Contracts by Sales Rep",
+    "width": "Full"
+   }
+  ],
+  "dashboard_name": "Sales Rep Activity",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 0,
+  "is_standard": 1,
+  "modified": "2025-12-18 22:30:00",
+  "module": "Crystal Clean",
+  "name": "Sales Rep Activity"
+ },
+ {
+  "cards": [
+   {
+    "card": "Contracts Expiring 30 Days"
+   },
+   {
+    "card": "Contracts Expiring 60 Days"
+   },
+   {
+    "card": "Contracts Expiring 90 Days"
+   }
+  ],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Contract Expiration by Sales Rep",
+    "width": "Full"
+   }
+  ],
+  "dashboard_name": "Contract Expiration",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 0,
+  "is_standard": 1,
+  "modified": "2025-12-18 22:30:00",
+  "module": "Crystal Clean",
+  "name": "Contract Expiration"
+ }
+]

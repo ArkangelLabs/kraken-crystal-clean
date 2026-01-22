@@ -16,8 +16,16 @@ fixtures = [
 	{"dt": "Workspace Sidebar", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Number Card", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Dashboard Chart", "filters": [["module", "=", "Crystal Clean"]]},
-	{"dt": "Dashboard", "filters": [["module", "=", "Crystal Clean"]]}
+	{"dt": "Dashboard", "filters": [["module", "=", "Crystal Clean"]]},
+	{"dt": "Email Domain"},
+	{"dt": "Email Template"},
+	{"dt": "Notification"}
 ]
+
+# Installation
+# ------------
+
+after_install = "crystal_clean.setup.after_install"
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -57,7 +65,10 @@ fixtures = [
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
-doctype_list_js = {"Contract": "public/js/contract_list.js"}
+doctype_list_js = {
+	"Contract": "public/js/contract_list.js",
+	"Issue Process": "public/js/issue_process_list.js"
+}
 
 # Svg Icons
 # ------------------
@@ -92,12 +103,6 @@ doctype_list_js = {"Contract": "public/js/contract_list.js"}
 # 	"methods": "crystal_clean.utils.jinja_methods",
 # 	"filters": "crystal_clean.utils.jinja_filters"
 # }
-
-# Installation
-# ------------
-
-# before_install = "crystal_clean.install.before_install"
-# after_install = "crystal_clean.install.after_install"
 
 # Uninstallation
 # ------------
@@ -248,4 +253,3 @@ scheduler_events = {
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

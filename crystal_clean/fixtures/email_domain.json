@@ -1,0 +1,23 @@
+[
+ {
+  "append_emails_to_sent_folder": 0,
+  "attachment_limit": 0,
+  "docstatus": 0,
+  "doctype": "Email Domain",
+  "domain_name": "mythril.cloud",
+  "email_server": "email-smtp.us-east-1.amazonaws.com",
+  "incoming_port": "0",
+  "modified": "2025-12-12 13:28:19",
+  "name": "mythril.cloud",
+  "sent_folder_name": "Sent",
+  "smtp_port": "587",
+  "smtp_server": "email-smtp.us-east-1.amazonaws.com",
+  "use_imap": 0,
+  "use_ssl": 0,
+  "use_ssl_for_outgoing": 0,
+  "use_starttls": 0,
+  "use_tls": 1,
+  "validate_ssl_certificate": 1,
+  "validate_ssl_certificate_for_outgoing": 1
+ }
+]
