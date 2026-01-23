@@ -11,8 +11,12 @@ app_license = "mit"
 # No required apps - this is a standalone Frappe app
 
 # Fixtures
-# Note: Custom Field removed - all fields are now native to Aspire DocTypes
+# Fixtures are exported/imported during bench migrate
+# - Custom Field: Custom fields added to standard DocTypes (e.g., Opportunity)
+# - Workspace Sidebar, Number Card, etc.: Dashboard components
+# - Email Domain/Template/Notification: Email configuration
 fixtures = [
+	{"dt": "Custom Field", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Workspace Sidebar", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Number Card", "filters": [["module", "=", "Crystal Clean"]]},
 	{"dt": "Dashboard Chart", "filters": [["module", "=", "Crystal Clean"]]},

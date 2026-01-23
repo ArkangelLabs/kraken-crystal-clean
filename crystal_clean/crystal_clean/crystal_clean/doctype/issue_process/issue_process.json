@@ -1,0 +1,236 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-12-18 12:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "subject",
+  "status",
+  "priority",
+  "column_break_4",
+  "due_date",
+  "assigned_to",
+  "section_description",
+  "description",
+  "section_contract",
+  "contract",
+  "contract_name",
+  "customer",
+  "column_break_12",
+  "customer_name",
+  "sales_rep",
+  "end_date",
+  "expiry_bucket",
+  "section_aspire",
+  "aspire_opportunity_id",
+  "aspire_property_id",
+  "aspire_activity_id",
+  "column_break_19",
+  "aspire_sync_status",
+  "last_aspire_sync",
+  "sync_error"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ISSUE-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Subject",
+   "reqd": 1
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nOpen\nIn Progress\nCompleted\nSent to Aspire"
+  },
+  {
+   "default": "Medium",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Priority",
+   "options": "Low\nMedium\nHigh\nCritical"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Assigned To"
+  },
+  {
+   "fieldname": "section_description",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_contract",
+   "fieldtype": "Section Break",
+   "label": "Contract Information"
+  },
+  {
+   "fieldname": "contract",
+   "fieldtype": "Link",
+   "label": "Contract",
+   "options": "Aspire Contract"
+  },
+  {
+   "fieldname": "contract_name",
+   "fieldtype": "Data",
+   "label": "Contract Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Data",
+   "label": "Customer"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_rep",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Sales Rep"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "Contract End Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expiry_bucket",
+   "fieldtype": "Data",
+   "label": "Expiry Bucket",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_aspire",
+   "fieldtype": "Section Break",
+   "label": "Aspire Integration"
+  },
+  {
+   "fieldname": "aspire_opportunity_id",
+   "fieldtype": "Int",
+   "label": "Aspire Opportunity ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "aspire_property_id",
+   "fieldtype": "Int",
+   "label": "Aspire Property ID",
+   "read_only": 1
+  },
+  {
+   "description": "Populated after sync to Aspire",
+   "fieldname": "aspire_activity_id",
+   "fieldtype": "Int",
+   "label": "Aspire Activity ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Not Synced",
+   "fieldname": "aspire_sync_status",
+   "fieldtype": "Select",
+   "label": "Aspire Sync Status",
+   "options": "Not Synced\nPending\nSynced\nError",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_aspire_sync",
+   "fieldtype": "Datetime",
+   "label": "Last Aspire Sync",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sync_error",
+   "fieldtype": "Small Text",
+   "label": "Sync Error",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-18 12:00:00",
+ "modified_by": "Administrator",
+ "module": "Crystal Clean",
+ "name": "Issue Process",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "subject",
+ "track_changes": 1
+}
