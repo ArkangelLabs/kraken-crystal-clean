@@ -55,3 +55,42 @@ Days Until Expiry: {days_until}
 	frappe.db.commit()
 
 	return issue.name
+
+
+@frappe.whitelist()
+def send_renewal_email(issue_name):
+	"""Send sales renewal email for an Issue Process."""
+	from datetime import timedelta
+
+	issue = frappe.get_doc("Issue Process", issue_name)
+	contract = frappe.get_doc("Aspire Contract", issue.contract)
+
+	# Calculate renewal target (due date - 30 days)
+	renewal_target = None
+	if issue.due_date:
+		renewal_target = issue.due_date - timedelta(days=30)
+
+	# Hardcoded recipient for testing
+	recipient = "pier-luc@mythril.systems"
+
+	subject = f"Issue #{issue.name} - Sales Renewal - Re: Contract #{issue.contract}"
+
+	message = f"""
+	<p><strong>Issue#:</strong> {issue.name}</p>
+	<p><strong>Contract#:</strong> {issue.contract}</p>
+	<p><strong>Contract Due Date:</strong> {issue.due_date}</p>
+	<br>
+	<p><strong>Contract Renewal Target:</strong> {renewal_target} <span style="background-color: yellow;">&lt;-- Contract Due Date - 30 Days</span></p>
+	<br>
+	<p><strong>Property:</strong> {contract.property or 'N/A'}</p>
+	<p><strong>Estimated Value:</strong> ${contract.estimated_value or 0:,.2f}</p>
+	"""
+
+	frappe.sendmail(
+		recipients=[recipient],
+		subject=subject,
+		message=message,
+		now=True
+	)
+
+	return {"success": True, "recipient": recipient}
